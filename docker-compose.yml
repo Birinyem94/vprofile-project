@@ -49,6 +49,6 @@ services:
 
 #CREATE VOLUMES
 volumes:
-- vproappdata: {}
-- vprodbdata: {}
+  vproappdata: {}
+  vprodbdata: {}
 
