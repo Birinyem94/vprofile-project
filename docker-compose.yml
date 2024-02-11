@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  vprodb:  #Mysql
+    build: 
+      context: ./Docker-files/db
+    image: birinyem/project
+    container_name: vprodb
+    ports:
+      - "3303:3306"
+    volumes:
+      - vprodbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=vprodbpass
+
+#memcached
+  vprocache01:
+    image: memcached
+    ports:
+      - "11211:11211"
+
+ #Rabbitmq
+  vpromq01:
+    image: rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+#Tomcat
+  vproapp:
+    build: 
+      context: ./Docker-files/app
+    image: birinyem/projectapp
+    container_name: vproapp
+    ports:
+      - "8080:8080"
+    volumes:
+      - vproappdata:/usr/local/tomcat/webapps
+
+#Nginx
+  vproweb:
+    build: 
+      context: ./Docker-files/web
+    image: birinyem/projectweb
+    container_name: vprowebb
+    ports:
+      - "80:80"
+
+#CREATE VOLUMES
+volumes:
+- vproappdata: {}
+- vprodbdata: {}
+
